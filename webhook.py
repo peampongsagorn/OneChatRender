@@ -118,7 +118,7 @@ def select_job(user_id,text):
     else:
         return jsonify({"status": "error", "message": f"Failed to start job '{text}'"}), 500
 
-@app.route('/webhook', methods=['POST'])
+@app.route('/', methods=['POST'])
 def webhook():
     try:
         # รับ JSON จาก request
