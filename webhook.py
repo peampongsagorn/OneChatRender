@@ -8,7 +8,6 @@ from send_file_service_area import send_file_service_area
 from run_job import run_job
 import requests
 import json
-import os
 
 app = Flask(__name__)
 
@@ -97,18 +96,16 @@ def select_job(user_id,text):
     success = run_job(text)
 
     if success:
-        #token = "A41118f4c3901504599cd424f489f0bc6f378f8f35e9b45c1b5b5a77d77e14635c345d3bb654c428fa7ac1aa7ddf7f8cc"
+        token = "A41118f4c3901504599cd424f489f0bc6f378f8f35e9b45c1b5b5a77d77e14635c345d3bb654c428fa7ac1aa7ddf7f8cc"
         url = "https://chat-api.one.th/message/api/v1/push_message"
         headers = {
             "Content-Type": "application/json; charset=utf-8",
-            "Authorization": f"Bearer {os.getenv('token')}"
+            "Authorization": f"Bearer {token}"
         }
         parameter = {
-            "to" : os.getenv('target'), 
-            #"to" : "G2a371f7b1f7d4283b467ce1f94583300ab05b72bb0664ce5a239d9bb0787094f",
+            "to" : "G2a371f7b1f7d4283b467ce1f94583300ab05b72bb0664ce5a239d9bb0787094f",
             #"to" : "Ua7c02205a2f24bf38244f22c27761fca",
-            #"bot_id" : "B334b547016f659f5b75ec45af18f3e38",
-            "bot_id" : os.getenv('bot_id'),
+            "bot_id" : "B334b547016f659f5b75ec45af18f3e38",
             "type" : "text",
             "message" : f'Start Run Job {text}',
             "custom_notification" : "เปิดอ่านข้อความใหม่จากทางเรา" 
@@ -128,8 +125,8 @@ def webhook():
             return jsonify({"status": "error", "message": "No JSON data received"}), 400
 
         source = data.get('source',{})
-        sender = source.get('sender',{})
-        user_id = sender.get('user_id')
+        #sender = source.get('sender',{})
+        user_id = source.get('user_id')
         if not user_id:
             return jsonify({"status": "error", "message": "User ID is missing"}), 400
 
@@ -158,7 +155,6 @@ def webhook():
     except Exception as e:
         print(f"Error: {e}")
         return jsonify({"status": "error", "message": "An error occurred"}), 500
-
 
 if __name__ == '__main__':
     # ใช้ตัวแปร PORT หากมี หรือค่าเริ่มต้นเป็น 5000
