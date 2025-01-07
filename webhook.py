@@ -8,6 +8,7 @@ from send_file_service_area import send_file_service_area
 from run_job import run_job
 import requests
 import json
+import os
 
 app = Flask(__name__)
 
@@ -96,16 +97,18 @@ def select_job(user_id,text):
     success = run_job(text)
 
     if success:
-        token = "A41118f4c3901504599cd424f489f0bc6f378f8f35e9b45c1b5b5a77d77e14635c345d3bb654c428fa7ac1aa7ddf7f8cc"
+        #token = "A41118f4c3901504599cd424f489f0bc6f378f8f35e9b45c1b5b5a77d77e14635c345d3bb654c428fa7ac1aa7ddf7f8cc"
         url = "https://chat-api.one.th/message/api/v1/push_message"
         headers = {
             "Content-Type": "application/json; charset=utf-8",
-            "Authorization": f"Bearer {token}"
+            "Authorization": f"Bearer {os.getenv('token')}"
         }
         parameter = {
-            "to" : "G2a371f7b1f7d4283b467ce1f94583300ab05b72bb0664ce5a239d9bb0787094f",
+            "to" : os.getenv('target'), 
+            #"to" : "G2a371f7b1f7d4283b467ce1f94583300ab05b72bb0664ce5a239d9bb0787094f",
             #"to" : "Ua7c02205a2f24bf38244f22c27761fca",
-            "bot_id" : "B334b547016f659f5b75ec45af18f3e38",
+            #"bot_id" : "B334b547016f659f5b75ec45af18f3e38",
+            "bot_id" : os.getenv('bot_id'),
             "type" : "text",
             "message" : f'Start Run Job {text}',
             "custom_notification" : "เปิดอ่านข้อความใหม่จากทางเรา" 
