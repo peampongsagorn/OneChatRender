@@ -126,15 +126,15 @@ def webhook():
             return jsonify({"status": "error", "message": "No JSON data received"}), 400
 
         source = data.get('source',{})
-        #sender = source.get('sender',{})
-        user_id = source.get('user_id')
+        sender = source.get('sender',{})
+        user_id = sender.get('user_id')
         if not user_id:
             return jsonify({"status": "error", "message": "User ID is missing"}), 400
 
         message = data.get('message', {})
         text = message.get('text', '')
         print(text)
-        if re.search(r'run', text, re.IGNORECASE):  
+        if re.search(r'\brun\b', text, re.IGNORECASE):  
             send_quick_reply_select_job()
             user_state[user_id] = {"step": "waiting_selected_job"}
             return jsonify({"status": "success", "message": "Waiting for job selection"}), 200
