@@ -128,8 +128,8 @@ def webhook():
             return jsonify({"status": "error", "message": "No JSON data received"}), 400
 
         source = data.get('source',{})
-        #sender = source.get('sender',{})
-        user_id = source.get('user_id')
+        sender = source.get('sender',{})
+        user_id = sender.get('user_id')
         if not user_id:
             return jsonify({"status": "error", "message": "User ID is missing"}), 400
 
