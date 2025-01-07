@@ -8,6 +8,7 @@ from send_file_service_area import send_file_service_area
 from run_job import run_job
 import requests
 import json
+import os
 
 app = Flask(__name__)
 
@@ -133,7 +134,7 @@ def webhook():
         message = data.get('message', {})
         text = message.get('text', '')
         print(text)
-        if re.search(r'\brun\b', text, re.IGNORECASE):  
+        if re.search(r'run', text, re.IGNORECASE):  
             send_quick_reply_select_job()
             user_state[user_id] = {"step": "waiting_selected_job"}
             return jsonify({"status": "success", "message": "Waiting for job selection"}), 200
